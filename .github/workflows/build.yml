@@ -5,7 +5,7 @@ on: push
 env:
   SLN_PATH: DemoApplication1\DemoApplication1.sln
   PRJ_PATH: DemoApplication1\DemoApplication1
-  PKG_FOLDER: "published"
+  PKG_FOLDER: "Build"
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
       - name: Publish artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: webapp
+          name: TEST_0.${{ github.run_id }}.${{ github.run_number }}
           path: ${{ env.PRJ_PATH }}\${{ env.PKG_FOLDER }}
           if-no-files-found: error
           retention-days: 5
