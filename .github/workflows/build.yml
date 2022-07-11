@@ -30,16 +30,16 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore ${{ env.SLN_PATH }}
 
-      - name: Build
-        run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release
+      # - name: Build
+      #   run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release
 
-      - name: Publish to folder
+      - name: Build
         run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.PKG_FOLDER }} /p:PackageAsSingleFile=false
 
-      - name: Publish artifacts
+      - name: Publish Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: TEST_0.0.${{ github.run_number }}
+          name: TEST_0.${{ github.head_ref }}.${{ github.run_number }}
           path: ${{ env.PRJ_PATH }}\${{ env.PKG_FOLDER }}
           if-no-files-found: error
           retention-days: 5
