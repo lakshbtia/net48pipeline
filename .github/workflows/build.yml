@@ -3,8 +3,8 @@ name: Build and Deploy
 on: push
 
 env:
-  AZURE_WEBAPP_NAME: DemoApplication1\DemoApplication1.sln
-  AZURE_WEBAPP_PACKAGE_PATH: "./published"
+  SLN_PATH: DemoApplication1\DemoApplication1.sln
+  PKG_FOLDER: "published"
 
 jobs:
   build:
@@ -27,18 +27,18 @@ jobs:
         # nuget-version: "5.x"
 
       - name: Restore NuGet packages
-        run: nuget restore ${{ env.AZURE_WEBAPP_NAME }}
+        run: nuget restore ${{ env.SLN_PATH }}
 
       - name: Build
-        run: msbuild ${{ env.AZURE_WEBAPP_NAME }} /p:Configuration=Release
+        run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release
 
       - name: Publish to folder
-        run: msbuild ${{ env.AZURE_WEBAPP_NAME }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.AZURE_WEBAPP_PACKAGE_PATH }} /p:PackageAsSingleFile=false
+        run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.PKG_FOLDER }} /p:PackageAsSingleFile=false
 
       - name: Publish artifacts
         uses: actions/upload-artifact@v3
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          path: ${{ env.SLN_PATH }}\${{ env.PKG_FOLDER }}
           if-no-files-found: error
           retention-days: 5
