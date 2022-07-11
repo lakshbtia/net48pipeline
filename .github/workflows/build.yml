@@ -30,10 +30,10 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore ${{ env.SLN_PATH }}
 
-      # - name: Build
-      #   run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release
-
       - name: Build
+        run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release
+
+      - name: Create Folder
         run: msbuild ${{ env.SLN_PATH }} /p:Configuration=Release /p:DeployOnBuild=true /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=${{ env.PKG_FOLDER }} /p:PackageAsSingleFile=false
 
       - name: Publish Artifact
