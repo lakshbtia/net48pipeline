@@ -4,10 +4,11 @@ on: push
 
 env:
   AZURE_WEBAPP_NAME: DemoApplication1\DemoApplication1.sln
-  AZURE_WEBAPP_PACKAGE_PATH: "published"
+  AZURE_WEBAPP_PACKAGE_PATH: "./published"
 
 jobs:
-  setup:
+  build:
+    name: Build
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,15 +16,15 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
         # with:
-          # msbuild-architecture: x64
-          # vs-version: "[16.4,16.9)"
-          # vswhere-path: 'C:\path\to\your\tools\'
+        # msbuild-architecture: x64
+        # vs-version: "[16.4,16.9)"
+        # vswhere-path: 'C:\path\to\your\tools\'
 
       - name: Setup NuGet
         uses: nuget/setup-nuget@v1
         # with:
-          # nuget-api-key: ${{ secrets.NuGetAPIKey }}
-          # nuget-version: "5.x"
+        # nuget-api-key: ${{ secrets.NuGetAPIKey }}
+        # nuget-version: "5.x"
 
       - name: Restore NuGet packages
         run: nuget restore ${{ env.AZURE_WEBAPP_NAME }}
@@ -39,4 +40,5 @@ jobs:
         with:
           name: webapp
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          if-no-files-found: error
           retention-days: 5
