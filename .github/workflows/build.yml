@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: DemoApplication1.sln
+  AZURE_WEBAPP_NAME: DemoApplication1\DemoApplication1.sln
   AZURE_WEBAPP_PACKAGE_PATH: "published"
 
 jobs:
