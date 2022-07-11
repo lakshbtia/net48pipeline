@@ -4,6 +4,7 @@ on: push
 
 env:
   SLN_PATH: DemoApplication1\DemoApplication1.sln
+  PRJ_PATH: DemoApplication1\DemoApplication1
   PKG_FOLDER: "published"
 
 jobs:
@@ -39,6 +40,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: webapp
-          path: ${{ env.SLN_PATH }}\${{ env.PKG_FOLDER }}
+          path: ${{ env.PRJ_PATH }}\${{ env.PKG_FOLDER }}
           if-no-files-found: error
           retention-days: 5
